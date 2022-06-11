@@ -20,3 +20,5 @@ app.use(function(req, res) {
 
 
 app.listen(config.port)
+
+module.exports = app;
