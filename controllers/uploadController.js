@@ -33,7 +33,9 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage }).single("imagefile");
 
 function uploadEntry(req, res, next) {
+  
   upload(req, res, function(err) {
+    console.log(req.file.filename)
     let uploadedFilename = req.file.filename;
     if (!validateType(req.file)) {
       res.status(400).send("Invalid file type");
