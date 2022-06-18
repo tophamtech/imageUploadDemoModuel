@@ -23,18 +23,30 @@ var options = {
   formData: {
     imagefile: {
       value: imageStream,
-      options: { filename: "platypus.jpg", contentType: null }
+      options: { filename: "platypus.gif", contentType: null }
     }
   }
 };
 
+function cleanup(fileID) {
+  let deleteArr = ['.png','.jpg','.gif']
+  deleteArr.forEach(ext => {
+    fs.unlink(`${__dirname}/../uploads/${fileID}${ext}`, (err) => {
+      if (err) {}
+    })
+  });  
+}
 
-describe("Test for upload route", () => {
+describe("Test for upload route only", () => {
+
   it("should return 200 and upload image", function(done) {
         request(options, function(error, response, body) {
         bodyResult = body;
+        let fileID = (JSON.parse(body)).fileID
         expect(bodyResult).to.include("upload\":\"ok\"") 
+        // cleanup(fileID)
         done()
     })
  });
 });
+

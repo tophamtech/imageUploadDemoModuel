@@ -42,7 +42,6 @@ describe("Test for upload route", () => {
  });
 });
 
-  // TODO why isn't the image the same
   describe("Test for download route", () => {
     it("should return test image", function(done) {
           request(imageLocation, function(error, response, body) {
