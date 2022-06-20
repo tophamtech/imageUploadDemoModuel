@@ -36,16 +36,18 @@ const upload = multer({ storage: storage }).single("imagefile");
 // Entry function for controller
 function uploadEntry(req, res, next) {
   upload(req, res, function(err) {
+    let fileID
     let uploadedFilename = req.file.filename;
     if (!validateType(req.file)) {
       res.status(400).send("Invalid file type");
     } else {
-      convertFile(uploadedFilename);
-      let fileID = path.parse(uploadedFilename).name
+      fileID = path.parse(uploadedFilename).base
+
       let baselocation = `${config.baseurl}/${config.downloadpath}/${path.parse(uploadedFilename).name}`
       let png_location = `${baselocation}.png`
       let jpg_location = `${baselocation}.jpg`
       let gif_location = `${baselocation}.gif`
+      req.fileID = fileID
       res.json({
           "upload":"ok",
           "fileID": fileID,
@@ -53,8 +55,11 @@ function uploadEntry(req, res, next) {
           "gif_location": gif_location,
           "jpg_location": jpg_location
       })
+      next();
     }
   });
+  
+  
 }
 
 module.exports = uploadEntry;

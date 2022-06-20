@@ -2,7 +2,7 @@ const path = require("path");
 const sharp = require("sharp");
 
 // File type conversion function
-function convertFile(inputFile) {
+function convertFile(inputFile, srcDir) {
     const typelessName = path.parse(inputFile).name;
     const ext = path.parse(inputFile).ext;
 
@@ -11,11 +11,13 @@ function convertFile(inputFile) {
 
     supportedExt.forEach(fileExt => {
       if (fileExt != ext.substr(1,ext.length)) {
-        sharp(`${__dirname}/../uploads/${inputFile}`)
+        sharp(`${srcDir}/${inputFile}`)
         .toFormat(`${fileExt}`)
         .toFile(
-          `${__dirname}/../uploads/${typelessName}.${fileExt}`,
+          `${srcDir}/${typelessName}.${fileExt}`,
           (err, info) => {
+            console.log(err)
+            console.log(info)
           }
         );
       }

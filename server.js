@@ -1,24 +1,9 @@
-const express = require('express')
-const config = require('./config.json')
-const uploadRoutes = require('./routes/upload')
-const downloadRoutes = require('./routes/download')
 
-const app = express()
-
-// Express routes
-app.use('/upload', uploadRoutes)
-app.use('/download', downloadRoutes)
+const uploadController = require('./controllers/uploadController')
+const imageConversion = require('./controllers/imageConversion')
+const downloadController = require('./controllers/downloadController')
 
 
-// Default 404 catch all 
-app.use(function(req, res) {
-    res.status(404).json({
-      message: "No such route exists"
-    })
-  });
-  
-
-
-app.listen(config.port)
-
-module.exports = app;
+exports.uploader = uploadController
+exports.imageConversion = imageConversion
+exports.downloader = downloadController
